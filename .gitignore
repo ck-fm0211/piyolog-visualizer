@@ -1,0 +1,10 @@
+.tool-versions
+.venv/
+.DS_Store
+
+# aside
+gas/node_modules
+gas/dist/
+gas/build/
+gas/.clasp*.json
+gas/*.tgz
