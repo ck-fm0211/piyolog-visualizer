@@ -11,7 +11,8 @@
     "build",
     "src",
     "test",
-    "dist"
+    "dist",
+    "README.md"
   ],
   "license": "license-header.txt",
   "licenseFormats": {
