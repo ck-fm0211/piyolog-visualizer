@@ -1,27 +1,37 @@
-import { LogEntry, parseFileContent } from './logParser';
-
-export function getLatestFileData(
+export function processFilesInOrder(
     folderId: string,
-    driveApp: typeof DriveApp
-): LogEntry[] {
+    processedFolderId: string,
+    driveApp: typeof DriveApp,
+    callback: (
+        file: GoogleAppsScript.Drive.File,
+        driveApp: typeof DriveApp
+    ) => void
+) {
     const folder = driveApp.getFolderById(folderId);
+    const processedFolder = driveApp.getFolderById(processedFolderId);
     const files = folder.getFiles();
-    let latestFile = null;
-    let latestDate = new Date(0); // JavaScriptの標準Dateオブジェクトを使用
 
+    const sortedFiles = [];
     while (files.hasNext()) {
-        const file = files.next();
-        const date = new Date(file.getLastUpdated().getTime()); // JavaScriptの標準Dateオブジェクトに変換
-        if (date > latestDate) {
-            latestDate = date;
-            latestFile = file;
-        }
+        sortedFiles.push(files.next());
     }
 
-    if (!latestFile) {
-        throw new Error('No files found in the folder.');
-    }
+    // タイムスタンプが古い順にソート
+    sortedFiles.sort(
+        (a, b) => a.getLastUpdated().getTime() - b.getLastUpdated().getTime()
+    );
 
-    const content = latestFile.getBlob().getDataAsString();
-    return parseFileContent(content);
+    sortedFiles.forEach(file => {
+        callback(file, driveApp);
+        file.moveTo(processedFolder);
+    });
+}
+
+export function moveFileToProcessedFolder(
+    file: GoogleAppsScript.Drive.File,
+    processedFolderId: string,
+    driveApp: GoogleAppsScript.Drive.DriveApp
+) {
+    const processedFolder = driveApp.getFolderById(processedFolderId);
+    file.moveTo(processedFolder);
 }
