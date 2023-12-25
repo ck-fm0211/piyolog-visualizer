@@ -40,9 +40,27 @@ describe('processFilesInOrder', () => {
         processFilesInOrder(folderId, driveApp, callback);
 
         expect(driveApp.getFolderById).toHaveBeenCalledWith(folderId);
-        expect(mockFiles.hasNext).toHaveBeenCalledTimes(3); // 2 files + 1 final call returning false
+        expect(mockFiles.hasNext).toHaveBeenCalledTimes(4); // check exist + 2 files + 1 final call returning false
         expect(callback).toHaveBeenNthCalledWith(1, mockFile1, driveApp);
         expect(callback).toHaveBeenNthCalledWith(2, mockFile2, driveApp);
+    });
+    it('should throw an error if folder does not exist', () => {
+        const folderId = 'folderId1';
+        const mockFolder = {
+            getFiles: jest.fn().mockReturnValue(null),
+        };
+        const driveApp = {
+            getFolderById: jest
+                .fn()
+                .mockImplementation(id =>
+                    id === folderId ? mockFolder : null
+                ),
+        } as unknown as typeof DriveApp;
+        const callback = jest.fn();
+
+        expect(() =>
+            processFilesInOrder(folderId, driveApp, callback)
+        ).toThrow();
     });
 });
 

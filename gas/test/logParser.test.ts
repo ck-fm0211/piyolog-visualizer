@@ -10,9 +10,6 @@ describe('parseFileContent', () => {
         );
         const content = fs.readFileSync(filePath, 'utf8');
         const result = parseFileContent(content);
-        console.log('###');
-        console.log(result);
-        console.log('###');
         expect(result).toEqual([
             {
                 date: '2023/12/17',

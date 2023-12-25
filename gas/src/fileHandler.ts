@@ -8,6 +8,10 @@ export function processFilesInOrder(
 ) {
     const folder = driveApp.getFolderById(folderId);
     const files = folder.getFiles();
+    // ファイルが無かったらエラー
+    if (files.hasNext() === false) {
+        throw new Error('no files in folder');
+    }
 
     const sortedFiles = [];
     while (files.hasNext()) {
