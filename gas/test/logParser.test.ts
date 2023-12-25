@@ -10,7 +10,9 @@ describe('parseFileContent', () => {
         );
         const content = fs.readFileSync(filePath, 'utf8');
         const result = parseFileContent(content);
-        expect(result.length).toBe(3); // 配列の長さをチェック
+        console.log('###');
+        console.log(result);
+        console.log('###');
         expect(result).toEqual([
             {
                 date: '2023/12/17',
@@ -22,7 +24,37 @@ describe('parseFileContent', () => {
                 date: '2023/12/17',
                 time: '17:10',
                 dateTime: '2023/12/17 17:10',
-                activityParts: ['搾母乳', '50ml'],
+                activityParts: ['搾母乳', '50ml', '50'],
+            },
+            {
+                date: '2023/12/17',
+                time: '19:10',
+                dateTime: '2023/12/17 19:10',
+                activityParts: ['起きる', '(2時間50分)', '170'],
+            },
+            {
+                date: '2023/12/17',
+                time: '19:10',
+                dateTime: '2023/12/17 19:10',
+                activityParts: ['母乳', '左3分', '/', '右4分', '3', '4'],
+            },
+            {
+                date: '2023/12/17',
+                time: '19:10',
+                dateTime: '2023/12/17 19:10',
+                activityParts: ['体温', '37.1°C', '37.1'],
+            },
+            {
+                date: '2023/12/17',
+                time: '19:10',
+                dateTime: '2023/12/17 19:10',
+                activityParts: ['身長', '100.3cm', '100.3'],
+            },
+            {
+                date: '2023/12/17',
+                time: '19:15',
+                dateTime: '2023/12/17 19:15',
+                activityParts: ['起きる', '(50分)', '50'],
             },
             {
                 date: '2023/12/17',
