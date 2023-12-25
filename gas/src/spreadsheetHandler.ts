@@ -120,7 +120,7 @@ export function createActivitySheets(
         if (!existingSheets.has(activity)) {
             // 新しいシートを作成する必要がある場合のみ作成
             const sheet = ss.insertSheet(activity);
-            const formula = `=QUERY(Data!A:G, "SELECT * WHERE D = '${activity}'")`;
+            const formula = `=QUERY(Data!A:I, "SELECT * WHERE D = '${activity}'")`;
             sheet.getRange('A1').setFormula(formula);
         }
         // 既存のシートはそのままにする
