@@ -6,6 +6,9 @@ export type LogEntry = {
 };
 
 export function parseFileContent(content: string): LogEntry[] {
+    if (!content) {
+        throw new Error('empty file.');
+    }
     const lines = content.split('\n');
     const dateLine = lines[0].trim();
     const dateMatch = dateLine.match(/(\d{4}\/\d{2}\/\d{2})/);
@@ -20,7 +23,7 @@ export function parseFileContent(content: string): LogEntry[] {
         if (match) {
             const [, time, activity] = match;
             const dateTime = `${date} ${time}`; // 日付と時刻を結合
-            const activityParts = activity.split(/\s+/);
+            const activityParts = activity.split(/\s+/).filter(Boolean);
             logEntries.push({
                 date,
                 time,

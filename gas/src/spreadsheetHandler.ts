@@ -5,6 +5,11 @@ export function writeToSpreadsheet(
     logEntries: LogEntry[],
     spreadsheetApp: typeof SpreadsheetApp
 ) {
+    // ログエントリが空の場合は処理をスキップ
+    if (logEntries.length === 0) {
+        return;
+    }
+
     const ss = spreadsheetApp.openById(spreadsheetId);
     const sheet = ss.getSheetByName('Data') || ss.insertSheet('Data');
 
