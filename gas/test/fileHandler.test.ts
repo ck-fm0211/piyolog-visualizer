@@ -6,18 +6,19 @@ import {
 describe('processFilesInOrder', () => {
     it('should process files in the correct order based on last updated timestamp', () => {
         const folderId = 'folderId1';
-        const processedFolderId = 'folderId2';
         const mockFile1 = {
             getLastUpdated: jest
                 .fn()
                 .mockReturnValue(new Date(2020, 1, 1, 10, 30)),
             moveTo: jest.fn(),
+            getName: jest.fn(),
         } as unknown as GoogleAppsScript.Drive.File;
         const mockFile2 = {
             getLastUpdated: jest
                 .fn()
                 .mockReturnValue(new Date(2020, 1, 1, 10, 31)),
             moveTo: jest.fn(),
+            getName: jest.fn(),
         } as unknown as GoogleAppsScript.Drive.File;
         let fileIndex = 0;
         const mockFiles = {
@@ -36,14 +37,12 @@ describe('processFilesInOrder', () => {
         } as unknown as typeof DriveApp;
         const callback = jest.fn();
 
-        processFilesInOrder(folderId, processedFolderId, driveApp, callback);
+        processFilesInOrder(folderId, driveApp, callback);
 
         expect(driveApp.getFolderById).toHaveBeenCalledWith(folderId);
         expect(mockFiles.hasNext).toHaveBeenCalledTimes(3); // 2 files + 1 final call returning false
         expect(callback).toHaveBeenNthCalledWith(1, mockFile1, driveApp);
         expect(callback).toHaveBeenNthCalledWith(2, mockFile2, driveApp);
-        expect(mockFile1.moveTo).toHaveBeenCalled();
-        expect(mockFile2.moveTo).toHaveBeenCalled();
     });
 });
 
@@ -51,6 +50,7 @@ describe('moveFileToProcessedFolder', () => {
     it('should move file to processed folder', () => {
         const file = {
             moveTo: jest.fn(),
+            getName: jest.fn(),
         } as unknown as GoogleAppsScript.Drive.File;
         const processedFolderId = 'processedFolderId';
         const processedFolder = {};

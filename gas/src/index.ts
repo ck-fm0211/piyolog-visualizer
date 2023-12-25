@@ -22,16 +22,9 @@ function main() {
         throw new Error('プロパティ「processedFolderId」が見つかりません。');
     }
 
-    processFilesInOrder(
-        folderId,
-        processedFolderId,
-        DriveApp,
-        (file, driveApp) => {
-            const logEntries = parseFileContent(
-                file.getBlob().getDataAsString()
-            );
-            writeToSpreadsheet(spreadsheetId, logEntries, SpreadsheetApp);
-            moveFileToProcessedFolder(file, processedFolderId, driveApp); // カスタム関数を使用
-        }
-    );
+    processFilesInOrder(folderId, DriveApp, (file, driveApp) => {
+        const logEntries = parseFileContent(file.getBlob().getDataAsString());
+        writeToSpreadsheet(spreadsheetId, logEntries, SpreadsheetApp);
+        moveFileToProcessedFolder(file, processedFolderId, driveApp); // カスタム関数を使用
+    });
 }

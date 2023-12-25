@@ -5,8 +5,10 @@ export function writeToSpreadsheet(
     logEntries: LogEntry[],
     spreadsheetApp: typeof SpreadsheetApp
 ) {
+    console.log('write to spreadsheet...');
     // ログエントリが空の場合は処理をスキップ
     if (logEntries.length === 0) {
+        console.log('file is empty.');
         return;
     }
 
@@ -49,6 +51,7 @@ export function writeToSpreadsheet(
 }
 
 export function removeDuplicates(sheet: GoogleAppsScript.Spreadsheet.Sheet) {
+    console.log('remove duplicates...');
     const dataRange = sheet.getDataRange();
     const data = dataRange.getValues();
 
@@ -104,6 +107,7 @@ export function createActivitySheets(
     ss: GoogleAppsScript.Spreadsheet.Spreadsheet,
     logEntries: LogEntry[]
 ) {
+    console.log('create activity sheets...');
     const activities = new Set(logEntries.map(entry => entry.activityParts[0]));
 
     // 既存のシート名を取得

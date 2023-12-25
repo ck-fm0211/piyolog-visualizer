@@ -1,6 +1,5 @@
 export function processFilesInOrder(
     folderId: string,
-    processedFolderId: string,
     driveApp: typeof DriveApp,
     callback: (
         file: GoogleAppsScript.Drive.File,
@@ -8,7 +7,6 @@ export function processFilesInOrder(
     ) => void
 ) {
     const folder = driveApp.getFolderById(folderId);
-    const processedFolder = driveApp.getFolderById(processedFolderId);
     const files = folder.getFiles();
 
     const sortedFiles = [];
@@ -22,8 +20,8 @@ export function processFilesInOrder(
     );
 
     sortedFiles.forEach(file => {
+        console.log('processing: ' + file.getName());
         callback(file, driveApp);
-        file.moveTo(processedFolder);
     });
 }
 
@@ -32,6 +30,7 @@ export function moveFileToProcessedFolder(
     processedFolderId: string,
     driveApp: GoogleAppsScript.Drive.DriveApp
 ) {
+    console.log('moving to processed folder: ' + file.getName());
     const processedFolder = driveApp.getFolderById(processedFolderId);
     file.moveTo(processedFolder);
 }
