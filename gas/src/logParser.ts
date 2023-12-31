@@ -11,7 +11,7 @@ export function parseFileContent(content: string): LogEntry[] {
     }
     const lines = content.split('\n');
     const dateLine = lines[0].trim();
-    const dateMatch = dateLine.match(/(\d{4}\/\d{2}\/\d{2})/);
+    const dateMatch = dateLine.match(/(\d{4}\/\d{1,2}\/\d{1,2})/);
     if (!dateMatch) {
         throw new Error('Date not found in the first line of the file.');
     }
